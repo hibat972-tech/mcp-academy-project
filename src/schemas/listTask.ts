@@ -1,7 +1,5 @@
 import * as z from "zod/v4";
 
-
-
 // Tool: list_tasks — returns all open (pending) tasks
 export const listTasksInputSchema = z.object({
   limit: z
@@ -12,4 +10,3 @@ export const listTasksInputSchema = z.object({
     .optional()
     .describe("Max number of tasks to return, defaults to all open tasks"),
 });
-
