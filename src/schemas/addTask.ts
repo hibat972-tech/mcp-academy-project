@@ -1,6 +1,5 @@
 import * as z from "zod/v4";
 
-// Tool: add_task — creates a new task with a title and priority
 export const addTaskInputSchema = z.object({
   title: z
     .string()
