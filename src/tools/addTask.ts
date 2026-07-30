@@ -1,5 +1,4 @@
-import type { McpServer } from "@modelcontextprotocol/server";
-
+import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { addTaskInputSchema } from "../schemas/addTask.js";
 
 /** Week 2 stub — add a new task (P0 candidate). */
