@@ -1,20 +1,23 @@
 [
   {
     "id": "1",
-    "title": "Finish MCP Week 2",
+    "title": "Buy groceries",
+    "status": "open",
     "priority": "high",
-    "completed": true
+    "createdAt": "2026-07-20T10:00:00Z"
   },
   {
     "id": "2",
-    "title": "Study MCP Week 3",
+    "title": "Finish MCP homework",
+    "status": "open",
     "priority": "medium",
-    "completed": false
+    "createdAt": "2026-07-21T09:30:00Z"
   },
   {
-   "id": "3",
-    "title": "Study MCP Week 4",
+    "id": "3",
+    "title": "Call the bank",
+    "status": "completed",
     "priority": "low",
-    "completed": false
+    "createdAt": "2026-07-18T14:00:00Z"
   }
 ]
