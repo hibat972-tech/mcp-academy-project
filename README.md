@@ -11,11 +11,3 @@ This project is a hands-on exercise for learning Git, GitHub, and MCP fundamenta
 
 ## Academy
 NextFlows 
-=======
-## Week 2
-
-Run the MCP server locally:
-```
-npm run dev
-```
->>>>>>> c93f612 (feat(week2): register multi-tool skeleton)
