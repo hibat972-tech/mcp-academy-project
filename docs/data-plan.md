@@ -1,7 +1,5 @@
-# Data Plan
-
 | tool | source | fixture path | auth | failure modes | example response |
 |------|--------|--------------|------|---------------|------------------|
-| add_task | tasks.json | data/tasks.json | none | empty file, invalid JSON, write failure | `{ "id": "3", "title": "Study MCP Week 4", "priority": "low", "completed": false }` |
-| list_tasks | tasks.json | data/tasks.json | none | empty file, invalid JSON, file not found | `{ "tasks": [ { "id": "1", "title": "Finish MCP Week 2", "priority": "high", "completed": true }, { "id": "2", "title": "Study MCP Week 3", "priority": "medium", "completed": false } ] }` |
-| complete_task | tasks.json | data/tasks.json | none | task not found, invalid JSON, write failure | `{ "id": "1", "title": "Finish MCP Week 2", "priority": "high", "completed": true }` |
+| add_task | tasks.json | data/tasks.json | none | empty file,<br>invalid JSON,<br>write failure | `{<br>"id": "3",<br>"title": "Study MCP Week 4",<br>"priority": "low",<br>"completed": false<br>}` |
+| list_tasks | tasks.json | data/tasks.json | none | empty file,<br>invalid JSON,<br>file not found | `{<br>"tasks": [<br>{<br>"id": "1",<br>"title": "Finish MCP Week 2",<br>"priority": "high",<br>"completed": true<br>},<br>{<br>"id": "2",<br>"title": "Study MCP Week 3",<br>"priority": "medium",<br>"completed": false<br>}<br>]<br>}` |
+| complete_task | tasks.json | data/tasks.json | none | task not found,<br>invalid JSON,<br>write failure | `{<br>"id": "1",<br>"title": "Finish MCP Week 2",<br>"priority": "high",<br>"completed": true<br>}` |
