@@ -31,3 +31,11 @@ On Demo Day, the user says: "Add a task to finish the cryptography assignment by
 ## Risks
 1. **Risk:** In-memory storage means all tasks are lost when the server restarts. **Mitigation:** Keep a small JSON file as simple persistence if time allows; otherwise clearly state this limitation on Demo Day.
 2. **Risk:** Task IDs may be hard to reference in natural conversation (user doesn't know the ID). **Mitigation:** Have `list_tasks` return short, memorable IDs, and let `complete_task`/`delete_task` also accept a partial title match as a fallback.
+
+## Notes from reading Filesystem MCP Server
+
+- Tool names follow strict `verb_noun` snake_case, same as our project: `list_directory`, `read_text_file`, `get_file_info`, `list_allowed_directories`.
+- Descriptions are short, one-line, and action-first ("Get detailed file/directory metadata") — no filler words like "This tool will...".
+- Every tool sets explicit MCP annotations (e.g. `readOnlyHint: true`, `openWorldHint: false`) so clients can tell read-only tools from write-capable ones at a glance, similar to how our `add_task` vs `list_tasks` should be distinguished.
+- Inputs are documented field-by-field right in the README (e.g. `path (string)`), matching how we use `.describe()` per field in our Zod schemas.
+- Output shape is spelled out explicitly for each tool (e.g. exact JSON fields returned by `list_directory`), which pushed me to double check our own `output (shape)` column in the tool inventory table is equally precise.
