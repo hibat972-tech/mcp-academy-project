@@ -2,7 +2,7 @@ import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 
 import { registerAddTaskTool } from "./tools/addTask.js";
-import { registerListTaskTool } from "./tools/listTask.js";
+import { registerListTasks } from "./tools/listTask.js";
 import { registerCompleteTaskTool } from "./tools/completeTask.js";
 
 function createServer(): McpServer {
@@ -12,7 +12,7 @@ function createServer(): McpServer {
   });
 
   registerAddTaskTool(server);
-  registerListTaskTool(server);
+  registerListTasks(server);
   registerCompleteTaskTool(server);
 
   return server;

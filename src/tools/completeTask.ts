@@ -1,6 +1,6 @@
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
-import { completeTaskInputSchema } from "../schemas/index.ts";
-import { completeTaskById } from "../lib/todos.ts";
+import { completeTaskInputSchema } from "../schemas/index.js";
+import { completeTaskById } from "../lib/tasks.js";
 
 export function registerCompleteTaskTool(server: McpServer)  {
   server.registerTool(

@@ -59,3 +59,28 @@ export async function addTask(
   await saveTodoList(tasks);
   return newTask;
 }
+
+export async function loadTodos(): Promise<TodoRecord[]> {
+  return loadTodoList();
+}
+
+export function filterOpenTasks(tasks: TodoRecord[], limit?: number): TodoRecord[] {
+  const openTasks = tasks.filter((task) => task.status === "open");
+  if (typeof limit === "number") {
+    return openTasks.slice(0, limit);
+  }
+  return openTasks;
+}
+
+export async function completeTaskById(id: string): Promise<TodoRecord> {
+  const tasks = await loadTodoList();
+  const task = tasks.find((item) => item.id === id);
+
+  if (!task) {
+    throw new Error(`Task with id "${id}" was not found`);
+  }
+
+  task.status = "completed";
+  await saveTodoList(tasks);
+  return task;
+}
