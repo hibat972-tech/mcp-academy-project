@@ -23,8 +23,9 @@
   {
     "id": "4",
     "title": "building mcp server",
-    "status": "completed",
+    "status": "open",
     "priority": "medium",
     "createdAt": "2026-08-03T11:58:45.919Z"
-  }
+  },
+  
 ]
