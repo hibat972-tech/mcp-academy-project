@@ -28,3 +28,8 @@
 - Concurrent write conflicts (multiple simultaneous writes to `todos.json`) — acceptable for a single-user student demo project with no concurrent access.
 - Authentication/authorization — not needed since there are no user accounts or multi-tenant data.
 - Atomic file writes / crash-safe persistence — acceptable risk for a Demo Day fixture-based project, not production data.
+
+## Verified This Week
+
+- **Path traversal**: tested `complete_task` with `id: "../etc/passwd"` in Inspector — treated as a normal (non-existent) task ID, returned "not found" without touching the filesystem outside `./data`. `dataFile.ts`'s `resolveDataPath()` already enforces this.
+- **Unbounded input**: tested `complete_task` with a 125-character `id` — rejected by Zod (`too_big`, max 100) before reaching any handler logic.
