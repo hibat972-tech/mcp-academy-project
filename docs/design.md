@@ -31,3 +31,7 @@ On Demo Day, the user says: "Add a task to finish the cryptography assignment by
 ## Risks
 1. **Risk:** In-memory storage means all tasks are lost when the server restarts. **Mitigation:** Keep a small JSON file as simple persistence if time allows; otherwise clearly state this limitation on Demo Day.
 2. **Risk:** Task IDs may be hard to reference in natural conversation (user doesn't know the ID). **Mitigation:** Have `list_tasks` return short, memorable IDs, and let `complete_task`/`delete_task` also accept a partial title match as a fallback.
+
+## Resources (Week 5+)
+
+Skipped implementing MCP Resources for Week 3 due to time constraints. Planned for a later phase: expose `data/todos.json` (or a filtered open-tasks view) as a read-only resource with a stable URI like `todos://open`, so the model can read task context without needing a tool call. Tools alone cover all Week 3 P0 requirements.
