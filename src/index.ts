@@ -20,6 +20,7 @@ function createServer(): McpServer {
 
 const server = createServer();
 const transport = new StdioServerTransport();
+
 await server.connect(transport);
 
 console.error("my-first-mcp MCP server running on stdio");
