@@ -43,9 +43,9 @@
 ## Action Items (must-fix)
 | Item | Owner | Due date |
 |---|---|---|
-| Leftover "list task" file still visible on GitHub — confirm it is fully removed | Malak | Done (14/8/2026) |
-| Add a `deadline` field to the `add_task` tool, in addition to the existing `priority` field | Malak | Done (14/8/2026) |
-| Improve `list_tasks`: add filtering and sorting by `priority` and `deadline` | Malak (implemented on behalf of Zainab, needs her review before merge) | Done (14/8/2026) |
+| Leftover "list task" file still visible on GitHub — confirm it is fully removed | Malak | Done (12/8/2026) |
+| Add a `deadline` field to the `add_task` tool, in addition to the existing `priority` field | Malak | Done (12/8/2026) |
+| Improve `list_tasks`: add filtering and sorting by `priority` and `deadline` |  Zainab| Done (12/8/2026) |
 
 ## Tool-level testing notes (live session with reviewer)
 
