@@ -49,10 +49,6 @@
 
 ## Tool-level testing notes (live session with reviewer)
 
-*(Re-verified after the review session to confirm exact request/response
-values for this document; same test cases demonstrated live to the
-reviewer.)*
-
 1. `add_task` — valid case
    Input: `{ "title": "Study for exam", "priority": "high", "deadline": "2026-08-20" }`
    Result: `{ "ok": true, "task": { "id": "3", "title": "Study for exam", "status": "open", "priority": "high", "deadline": "2026-08-20" } }`
