@@ -1,35 +1,63 @@
-# Threat Model — To-Do List MCP
+# Threat Model — To-Do List MCP (PO tools: list_tasks, add_task, complete_task)
 
 ## Assets
-- `./data/todos.json` — the only persisted data; contains task titles, priorities, and status (no personal or sensitive info).
-- The server process itself and the local filesystem it runs on.
-- No API keys, tokens, or secrets are used anywhere in this project.
+- `./data/todos.json` — the only data file these tools read/write. Contains task
+  id, title, status, priority, createdAt. No PII, no secrets.
+- No API keys or tokens are used by this tool group (all local file I/O, no network calls).
+- The host filesystem beyond `./data/` — must stay out of reach of these tools.
 
-## Trust Boundaries
-- **Model → tool arguments**: the AI model calls `add_task`, `list_tasks`, and `complete_task` with arguments it generates — these are treated as untrusted input.
-- **Tool → filesystem**: all three tools read/write `data/todos.json` through a shared helper (`dataFile.ts`).
-- **Tool → network**: none — this project makes no outbound network calls, so no external trust boundary exists here.
+## Trust boundaries
+- **Model → tool arguments**: the model calls `list_tasks`, `add_task`, and
+  `complete_task` with arguments it generates itself. These are treated as
+  untrusted input, same as an HTTP request body.
+- **Tool → filesystem**: `add_task` and `complete_task` write to
+  `./data/todos.json`; `list_tasks` only reads it. The file path itself is a
+  hardcoded constant in code — it is never built from model input.
+- No **tool → network** boundary exists in this group (no fetch/HTTP calls).
 
-## Top 5 Risks
-1. **Path traversal via file access** — a tool could be tricked into reading/writing outside `./data` if the file path isn't resolved safely.
-2. **Runaway response size** — `list_tasks` could return an unbounded number of tasks if `limit` isn't capped, flooding the model's context.
-3. **Malformed/invalid task data** — a corrupted or hand-edited `todos.json` (e.g. invalid JSON, missing fields) could crash the server instead of failing cleanly.
-4. **Unbounded string input** — `add_task`'s `title` field could be arbitrarily long, bloating storage and responses.
-5. **Silent data loss on write failure** — if `writeDataFile` fails partway (e.g. disk full), the todo list could end up corrupted or truncated.
+## Top 5 risks
+1. **Path traversal via task title/id** — if `add_task` or `complete_task`
+   ever used user-supplied strings to construct a file path (e.g. per-task
+   files), a crafted `title` or `id` like `../../etc/passwd` could escape
+   `./data/`. Currently mitigated by design (single fixed JSON file), but
+   flagged as a risk if this ever changes.
+2. **Oversized `title` in `add_task`** — an extremely long string could bloat
+   `todos.json` and blow up the model's context when `list_tasks` later
+   returns it.
+3. **Runaway response from `list_tasks`** — if `todos.json` grows large
+   (many tasks), returning all of them at once could flood the model's
+   context window, even with `limit` supplied incorrectly or omitted.
+4. **Malformed/invalid `id` in `complete_task`** — a nonexistent or
+   malformed `id` could cause a crash or an unclear error if not validated
+   before use.
+5. **Concurrent writes corrupting `todos.json`** — if `add_task` and
+   `complete_task` both write to the same file without any locking, a race
+   condition could corrupt the JSON.
 
-## Mitigations This Week
-1. Path traversal — `dataFile.ts` already resolves paths under `./data` and rejects any path escaping it (`..`); will add a unit-style manual test to confirm.
-2. Runaway response size — enforce a hard cap on `limit` in `list_tasks` (e.g. max 50) via Zod `.max()`, even if the caller passes a larger number.
-3. Malformed data — already caught via `todoListSchema.safeParse()` in `loadTodoList()`, which throws a clear error instead of crashing; will add a matching test case with intentionally broken JSON.
-4. Unbounded input — `title` already has `.min(1).max(200)` via Zod; will double-check this is enforced consistently across all tools that accept text.
-5. Write failure — out of scope for this week (see below), but will document the risk clearly.
+## Mitigations this week
+1. **Path traversal**: keep the fixture path as a hardcoded constant
+   (`resolve(__dirname, "../../../data/todos.json")`), never built from
+   model input. No plans to accept a path parameter from the model.
+2. **Oversized title**: add a Zod `.max(200)` (or similar) constraint on
+   `title` in `add_task`'s input schema, rejecting anything longer before
+   the handler runs.
+3. **Runaway `list_tasks` response**: `limit` is already capped at
+   `.max(50)` via Zod; additionally, if `limit` is omitted, cap the default
+   return size (e.g. top 20) rather than returning every open task
+   unbounded.
+4. **Invalid `id` in `complete_task`**: validate the `id` exists in the
+   loaded task list before attempting to mark it complete; return a clean
+   `isError: true` response (not a crash) if not found — same pattern
+   already used for `list_tasks`'s empty-file case.
+5. **Concurrent writes**: out of scope for this week (see below), but noted
+   as a known limitation.
 
-## Out of Scope
-- Concurrent write conflicts (multiple simultaneous writes to `todos.json`) — acceptable for a single-user student demo project with no concurrent access.
-- Authentication/authorization — not needed since there are no user accounts or multi-tenant data.
-- Atomic file writes / crash-safe persistence — acceptable risk for a Demo Day fixture-based project, not production data.
-
-## Verified This Week
-
-- **Path traversal**: tested `complete_task` with `id: "../etc/passwd"` in Inspector — treated as a normal (non-existent) task ID, returned "not found" without touching the filesystem outside `./data`. `dataFile.ts`'s `resolveDataPath()` already enforces this.
-- **Unbounded input**: tested `complete_task` with a 125-character `id` — rejected by Zod (`too_big`, max 100) before reaching any handler logic.
+## Out of scope
+- **File locking / concurrent write safety** — acceptable for a student
+  project running one process locally; not worth the complexity this week.
+- **Authentication/authorization** — cohort rule is `auth: none`; no user
+  accounts exist to protect.
+- **Network-based attacks (SSRF, rate limiting, etc.)** — not applicable,
+  since this tool group makes no network calls.
+- **Encryption at rest for `todos.json`** — contains no sensitive data
+  (no PII, no secrets), so unnecessary for this scope.

@@ -11,3 +11,5 @@ This project is a hands-on exercise for learning Git, GitHub, and MCP fundamenta
 
 ## Academy
 NextFlows 
+info@nextflows.ai
+
