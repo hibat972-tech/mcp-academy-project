@@ -2,7 +2,7 @@
   {
     "id": "1",
     "title": "week4",
-    "status": "open",
+    "status": "completed",
     "priority": "high",
     "deadline": "2026-08-19"
   },
@@ -11,6 +11,13 @@
     "title": "study week 5 and do all tasks",
     "status": "open",
     "priority": "medium",
+    "deadline": "2026-08-20"
+  },
+  {
+    "id": "3",
+    "title": "study for week 5 ",
+    "status": "open",
+    "priority": "high",
     "deadline": "2026-08-20"
   }
 ]
