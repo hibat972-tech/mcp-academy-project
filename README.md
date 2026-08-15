@@ -1,34 +1,65 @@
-# MCP tasks
-These are my tasks in the MCP  during this training
- 
+# To-Do List MCP
 
-## Academy Website
-NextFlows Academy: https://nextflows.ai/
+An MCP (Model Context Protocol) server that lets an AI assistant manage a simple to-do list: add tasks, list open tasks, and mark tasks as completed. Built as part of the NextFlows Academy MCP cohort.
 
-## the last submittion week 1 works in 23/7 
-1.1 -> know what is MCP 
-1.2 -> connect my mork in GitHub and do test
-1.3 -> install Node.js 
-1.4 -> search about tool,resourse and pormpts
-1.5 -> do first server
-1.6 ->call it with MCP inspector
+## Requirements
 
-##  Week 2 .... We design our own tools
+- Node.js v18.12.1 or later
+- npm (comes with Node.js)
 
+## Install
 
+```bash
+git clone https://github.com/hibat972-tech/mcp-academy-project.git
+cd mcp-academy-project
+git checkout week-5-docs
+npm install
+```
 
-## Week 3 .... we connect our tools to real data
+## Run
 
+```bash
+npm run dev
+```
 
+You should see:
 
-## Week 4 .... make data safe and reliable
+my-first-mcp MCP server running on stdio
+The server stays running and waits for a client to connect over stdio. Stop it with `Ctrl+C`.
 
+## Inspect it with MCP Inspector
 
+```bash
+npx @modelcontextprotocol/inspector npx tsx src/index.ts
+```
 
+Copy the full URL printed in the terminal (it includes an auth token, e.g. `http://localhost:6274/?MCP_PROXY_AUTH_TOKEN=...`) and open it in your browser. Click **Connect**, then **List Tools**.
 
-## Week 5 .... test data and write docs people can follow
+## Tools
 
+| Tool | Description | Example Input |
+|---|---|---|
+| `add_task` | Creates a new task with a title, priority, and deadline | `{"title": "Buy groceries", "priority": "medium", "deadline": "2026-08-20"}` |
+| `list_tasks` | Lists all open (pending) tasks | `{"limit": 10}` |
+| `complete_task` | Marks an existing task as done by its ID | `{"id": "1"}` |
 
+## Example Prompts
 
+- "Add a task to finish the report by Friday, high priority."
+- "What's on my to-do list right now?"
+- "Mark task 2 as done."
 
-## last Week .... ship data on GitHub 
+## Troubleshooting
+
+**"Cannot find module" errors on startup**
+Run `npm install` again to make sure all dependencies are installed, then retry `npm run dev`.
+
+**Inspector shows "Connection error" or "Not connected"**
+Close the browser tab, stop the terminal process (`Ctrl+C`), restart Inspector, and open the *new* URL it prints (the auth token changes each time — don't reuse an old tab).
+
+**A tool call is rejected with a Zod validation error**
+This is expected behavior, not a bug — check the error message for the exact field and rule that failed (e.g. `title` must be 1–200 characters, `priority` must be `low`/`medium`/`high`).
+
+## License
+
+This is a student academy project for educational purposes.
