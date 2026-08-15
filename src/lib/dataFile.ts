@@ -1,4 +1,4 @@
-import { readFile, writeFile } from "node:fs/promises";
+import { readFile, writeFile, mkdir } from "node:fs/promises";
 import { resolve, relative, isAbsolute } from "node:path";
 
 const DATA_DIR = resolve(process.cwd(), "data");
@@ -24,5 +24,6 @@ export async function readDataFile(fileName: string): Promise<string> {
 
 export async function writeDataFile(fileName: string, content: string): Promise<void> {
   const path = resolveDataPath(fileName);
+  await mkdir(DATA_DIR, { recursive: true });
   await writeFile(path, content, "utf-8");
 }
