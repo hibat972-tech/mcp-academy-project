@@ -12,3 +12,7 @@
 | 8 | add_task | Entire `data/` directory deleted (simulated total data-source loss) | `{ "title": "Test after missing file", "priority": "low", "deadline": "2026-08-21" }` | Directory + file are recreated automatically and task is added successfully | FAIL → PASS (fixed) | **Before fix:** `Could not add task: ENOENT: no such file or directory, open 'C:\Users\malak\Desktop\mcp-academy-project\data\todos.json'`. **Fix:** added `mkdir(DATA_DIR, { recursive: true })` in `writeDataFile()` (`src/lib/dataFile.ts`) before writing. **After fix:** `{ "ok": true, "task": { "id": "1", "title": "Test after missing file", "status": "open", "priority": "low", "deadline": "2026-08-21" } }` |
 | 9 | complete_task | none | `{"id": "../etc/passwd"}` | Rejected safely as not-found, no filesystem access outside `./data` | PASS | Inspector screenshot — "not found" message, no traversal outside `./data` |
 | 10 | complete_task | none | `{"id": "aaa...aaa"}` (125+ chars) | Zod rejects: id too long (max 100) | PASS | Inspector screenshot — Zod error "too_big", max 100 |
+
+## Note on Automated Tests (5.3)
+
+Skipped adding unit tests (`src/lib/*.test.ts`) for this week due to time constraints — this is explicitly optional per the assignment. The manual test plan above (10 cases, all PASS) covers all P0 tools and is sufficient to pass Week 5.
