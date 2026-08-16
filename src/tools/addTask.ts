@@ -7,25 +7,33 @@ export function registerAddTaskTool(server: McpServer): void {
     "add_task",
     {
       description:
-        "Create a new task with a title and priority, saved to data/todos.json.",
+        "Create a new task with a title, priority, and deadline, saved to data/todos.json.",
       inputSchema: addTaskInputSchema,
     },
-    async ({ title, priority }) => {
+    async ({ title, priority, deadline }) => {
       try {
-        const task = await addTask(title, priority);
+        const task = await addTask(title, priority, deadline);
+
         return {
           content: [
-            { type: "text", text: JSON.stringify({ ok: true, task }, null, 2) },
+            {
+              type: "text",
+              text: JSON.stringify({ ok: true, task }, null, 2),
+            },
           ],
         };
       } catch (error) {
         console.error(`add_task failed: ${(error as Error).message}`);
+
         return {
           content: [
-            { type: "text", text: `Could not add task: ${(error as Error).message}` },
+            {
+              type: "text",
+              text: `Could not add task: ${(error as Error).message}`,
+            },
           ],
         };
       }
-    },
+    }
   );
 }

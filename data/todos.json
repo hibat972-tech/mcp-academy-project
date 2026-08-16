@@ -1,17 +1,17 @@
 [
   {
     "id": "1",
-    "title": "Buy groceries",
-    "status": "open",
+    "title": "week4",
+    "status": "completed",
     "priority": "high",
-    "createdAt": "2026-07-20T10:00:00Z"
+    "deadline": "2026-08-19"
   },
   {
     "id": "2",
-    "title": "Finish MCP homework",
+    "title": "study week 5 and do all tasks",
     "status": "open",
     "priority": "medium",
-    "createdAt": "2026-07-21T09:30:00Z"
+    "deadline": "2026-08-20"
   },
   {
     "id": "3",
