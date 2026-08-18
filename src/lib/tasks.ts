@@ -131,3 +131,17 @@ export async function completeTaskById(id: string): Promise<TodoRecord> {
 
   return task;
 }
+export async function deleteTaskById(id: string): Promise<TodoRecord> {
+  const tasks = await loadTodoList();
+  const taskIndex = tasks.findIndex((item) => item.id === id);
+
+  if (taskIndex === -1) {
+    throw new Error(`Task with id "${id}" was not found`);
+  }
+
+  const [deletedTask] = tasks.splice(taskIndex, 1);
+
+  await saveTodoList(tasks);
+
+  return deletedTask;
+}
