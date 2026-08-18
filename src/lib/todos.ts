@@ -40,3 +40,36 @@ export async function deleteTaskById(id: string): Promise<TodoRecord> {
 
   return deletedTask;
 }
+export async function updateTaskById(
+  id: string,
+  updates: {
+    title?: string;
+    priority?: TodoRecord["priority"];
+    deadline?: string;
+  },
+): Promise<TodoRecord> {
+  const todos = await loadTodos();
+  const index = todos.findIndex((t) => t.id === id);
+
+  if (index === -1) {
+    throw new Error(`No task found with id "${id}"`);
+  }
+
+  const task = todos[index];
+
+  if (updates.title !== undefined) {
+    task.title = updates.title;
+  }
+
+  if (updates.priority !== undefined) {
+    task.priority = updates.priority;
+  }
+
+  if (updates.deadline !== undefined) {
+    task.deadline = updates.deadline;
+  }
+
+  await writeDataFile(TODOS_FILE, JSON.stringify(todos, null, 2));
+
+  return task;
+}
