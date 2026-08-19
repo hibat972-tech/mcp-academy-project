@@ -63,3 +63,7 @@ This is expected behavior, not a bug — check the error message for the exact f
 ## License
 
 This is a student academy project for educational purposes.
+
+## Example Conversations
+
+See [examples/conversations.md](examples/conversations.md) for full example conversations showing how a model uses these tools together, including expected tool calls and good final answers.

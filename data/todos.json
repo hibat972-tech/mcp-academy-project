@@ -1,17 +1,18 @@
 [
   {
     "id": "1",
-    "title": "week4",
-    "status": "completed",
+<<<<<<<<< Temporary merge branch 1
+    "title": "Buy groceries",
+    "status": "open",
     "priority": "high",
-    "deadline": "2026-08-19"
+    "createdAt": "2026-07-20T10:00:00Z"
   },
   {
     "id": "2",
-    "title": "study week 5 and do all tasks",
+    "title": "Finish MCP homework",
     "status": "open",
     "priority": "medium",
-    "deadline": "2026-08-20"
+    "createdAt": "2026-07-21T09:30:00Z"
   },
   {
     "id": "3",
@@ -26,5 +27,25 @@
     "status": "completed",
     "priority": "medium",
     "createdAt": "2026-08-03T11:58:45.919Z"
+=========
+    "title": "week4",
+    "status": "completed",
+    "priority": "high",
+    "deadline": "2026-08-19"
+  },
+  {
+    "id": "2",
+    "title": "study week 5 and do all tasks",
+    "status": "open",
+    "priority": "medium",
+    "deadline": "2026-08-20"
+  },
+  {
+    "id": "3",
+    "title": "study for week 5 ",
+    "status": "open",
+    "priority": "high",
+    "deadline": "2026-08-20"
+>>>>>>>>> Temporary merge branch 2
   }
 ]
