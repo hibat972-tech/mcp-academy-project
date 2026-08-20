@@ -1,0 +1,18 @@
+# Week 5 Manual Test Plan
+
+| id | tool | setup | input | expected | result | evidence |
+|---|---|---|---|---|---|---|
+| 1 | add_task | Fresh `data/todos.json` with existing tasks | `{ "title": "Study for week 5", "priority": "high", "deadline": "2026-08-20" }` | Task created, `ok: true`, new task returned with `status: "open"` | PASS | `{ "ok": true, "task": { "id": "3", "title": "Study for week 5", "status": "open", "priority": "high", "deadline": "2026-08-20" } }` |
+| 2 | add_task | Fresh `data/todos.json` with existing tasks | `{ "title": "", "priority": "low", "deadline": "2026-08-20" }` | Rejected by Zod validation (missing required field), no task created | PASS | `MCP error -32602: Input validation error: Invalid arguments for tool add_task: [{"expected":"string","code":"invalid_type","path":["title"],"message":"Invalid input: expected string, received undefined"}]` |
+| 3 | complete_task | Task with id `"1"` exists and is `open` | `{ "id": "1" }` | Task `status` becomes `"completed"`, `ok: true` | PASS | `{ "ok": true, "task": { "id": "1", "title": "week4", "status": "completed", "priority": "high", "deadline": "2026-08-19" } }` |
+| 4 | complete_task | Task with id "-1" does not exist | `{ "id": "-1" }` | Clean error: `Task with id "-1" was not found`, no crash | PASS | `Could not complete task: Task with id "-1" was not found` |
+| 5 | list_tasks | Fixture has 2 open tasks | `{ "limit": 5 }` | Returns only open tasks (excludes completed task `"1"`), sorted by priority/deadline, `count` matches | PASS | `{ "tasks": [{ "id": "3", "title": "Study for week 5", "status": "open", "priority": "high", "deadline": "2026-08-20" }, { "id": "2", "title": "study week 5 and do all tasks", "status": "open", "priority": "medium", "deadline": "2026-08-20" }], "count": 2 }` |
+| 6 | list_tasks | Fixture contains 2 open tasks | `{ "limit": -5 }` | Rejected by Zod validation (`too_small`), no data returned | PASS | `MCP error -32602: Input validation error: Invalid arguments for tool list_tasks: [{"origin":"number","code":"too_small","minimum":0,"inclusive":false,"path":["limit"],"message":"Too small: expected number to be >0"}]` |
+| 7 | list_tasks | `data/todos.json` reset to `[]` | `{}` (no input) | Returns `{ "tasks": [], "count": 0 }`, no crash | PASS | `{ "tasks": [], "count": 0 }` |
+| 8 | add_task | Entire `data/` directory deleted (simulated total data-source loss) | `{ "title": "Test after missing file", "priority": "low", "deadline": "2026-08-21" }` | Directory + file are recreated automatically and task is added successfully | FAIL → PASS (fixed) | **Before fix:** `Could not add task: ENOENT: no such file or directory, open 'C:\Users\malak\Desktop\mcp-academy-project\data\todos.json'`. **Fix:** added `mkdir(DATA_DIR, { recursive: true })` in `writeDataFile()` (`src/lib/dataFile.ts`) before writing. **After fix:** `{ "ok": true, "task": { "id": "1", "title": "Test after missing file", "status": "open", "priority": "low", "deadline": "2026-08-21" } }` |
+| 9 | complete_task | none | `{"id": "../etc/passwd"}` | Rejected safely as not-found, no filesystem access outside `./data` | PASS | Inspector screenshot — "not found" message, no traversal outside `./data` |
+| 10 | complete_task | none | `{"id": "aaa...aaa"}` (125+ chars) | Zod rejects: id too long (max 100) | PASS | Inspector screenshot — Zod error "too_big", max 100 |
+
+## Note on Automated Tests (5.3)
+
+Skipped adding unit tests (`src/lib/*.test.ts`) for this week due to time constraints — this is explicitly optional per the assignment. The manual test plan above (10 cases, all PASS) covers all P0 tools and is sufficient to pass Week 5.

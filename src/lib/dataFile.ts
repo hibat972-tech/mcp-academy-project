@@ -1,7 +1,11 @@
-import { readFile, writeFile } from "node:fs/promises";
-import { resolve, relative, isAbsolute } from "node:path";
+import { readFile, writeFile, mkdir } from "node:fs/promises";
+import { resolve, relative, isAbsolute, dirname } from "node:path";
+import { fileURLToPath } from "node:url";
 
-const DATA_DIR = resolve(process.cwd(), "data");
+const DATA_DIR = resolve(
+  dirname(fileURLToPath(import.meta.url)),
+  "../../data"
+);
 
 // Resolves a filename safely under ./data — rejects any path trying to escape it (e.g. "..")
 function resolveDataPath(fileName: string): string {
@@ -24,5 +28,6 @@ export async function readDataFile(fileName: string): Promise<string> {
 
 export async function writeDataFile(fileName: string, content: string): Promise<void> {
   const path = resolveDataPath(fileName);
+  await mkdir(DATA_DIR, { recursive: true });
   await writeFile(path, content, "utf-8");
 }

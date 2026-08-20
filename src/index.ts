@@ -4,6 +4,10 @@ import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js"
 import { registerAddTaskTool } from "./tools/addTask.js";
 import { registerListTasks } from "./tools/listTask.js";
 import { registerCompleteTaskTool } from "./tools/completeTask.js";
+import { registerDeleteTaskTool } from "./tools/deleteTask.js";
+import { registerUpdateTaskTool } from "./tools/updateTask.js";
+import { registerSearchTasksTool } from "./tools/searchTask.js";
+
 
 function createServer(): McpServer {
   const server = new McpServer({
@@ -14,12 +18,16 @@ function createServer(): McpServer {
   registerAddTaskTool(server);
   registerListTasks(server);
   registerCompleteTaskTool(server);
-
+  registerDeleteTaskTool(server);
+  registerUpdateTaskTool(server);
+  registerSearchTasksTool(server);
   return server;
 }
 
 const server = createServer();
+
 const transport = new StdioServerTransport();
+
 await server.connect(transport);
 
 console.error("my-first-mcp MCP server running on stdio");
