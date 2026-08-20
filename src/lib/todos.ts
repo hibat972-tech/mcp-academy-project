@@ -73,3 +73,53 @@ export async function updateTaskById(
 
   return task;
 }
+
+type SearchTaskStatus = "open" | "completed" | "all";
+
+function normalizeText(text: string): string {
+  return text
+    .toLowerCase()
+    .normalize("NFKC")
+    .replace(/[ًٌٍَُِّْـ]/g, "")
+    .replace(/[إأآا]/g, "ا")
+    .replace(/ى/g, "ي")
+    .replace(/ة/g, "ه")
+    .replace(/^ال/, "")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function taskMatchesQuery(task: TodoRecord, query: string): boolean {
+  const normalizedQuery = normalizeText(query);
+  const normalizedTitle = normalizeText(task.title);
+
+  if (normalizedTitle.includes(normalizedQuery)) {
+    return true;
+  }
+
+  const queryWords = normalizedQuery.split(" ");
+  const titleWords = normalizedTitle.split(" ");
+
+  return queryWords.every((queryWord) =>
+    titleWords.some(
+      (titleWord) =>
+        titleWord.includes(queryWord) ||
+        queryWord.includes(titleWord),
+    ),
+  );
+}
+
+export async function searchTasks(
+  query: string,
+  status: SearchTaskStatus = "open",
+): Promise<TodoRecord[]> {
+  const todos = await loadTodos();
+
+  return todos.filter((task) => {
+    if (status !== "all" && task.status !== status) {
+      return false;
+    }
+
+    return taskMatchesQuery(task, query);
+  });
+}

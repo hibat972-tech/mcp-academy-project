@@ -19,5 +19,47 @@
     "status": "open",
     "priority": "high",
     "deadline": "2026-08-20"
+  },
+  {
+    "id": "4",
+    "title": "إنهاء واجب التشفير (cryptography assignment)",
+    "status": "open",
+    "priority": "high",
+    "deadline": "2026-08-21"
+  },
+  {
+    "id": "5",
+    "title": "امتحان عربي ",
+    "status": "open",
+    "priority": "medium",
+    "deadline": "2026-08-19"
+  },
+  {
+    "id": "6",
+    "title": "Study Cryptography",
+    "status": "completed",
+    "priority": "high",
+    "deadline": "2026-08-21"
+  },
+  {
+    "id": "8",
+    "title": "Finish Arabic assignment",
+    "status": "open",
+    "priority": "low",
+    "deadline": "2026-08-25"
+  },
+  {
+    "id": "9",
+    "title": "Study cryptography",
+    "status": "open",
+    "priority": "low",
+    "deadline": "2026-08-27"
+  },
+  {
+    "id": "10",
+    "title": "Review Chapter 5: AES-256 (Part 2)",
+    "status": "open",
+    "priority": "medium",
+    "deadline": "2026-08-28"
   }
 ]

@@ -5,7 +5,8 @@ import { registerAddTaskTool } from "./tools/addTask.js";
 import { registerListTasks } from "./tools/listTask.js";
 import { registerCompleteTaskTool } from "./tools/completeTask.js";
 import { registerDeleteTaskTool } from "./tools/deleteTask.js";
-import {  registerUpdateTaskTool } from "./tools/updateTask.js";
+import { registerUpdateTaskTool } from "./tools/updateTask.js";
+import { registerSearchTasksTool } from "./tools/searchTask.js";
 
 
 function createServer(): McpServer {
@@ -19,6 +20,7 @@ function createServer(): McpServer {
   registerCompleteTaskTool(server);
   registerDeleteTaskTool(server);
   registerUpdateTaskTool(server);
+  registerSearchTasksTool(server);
   return server;
 }
 
