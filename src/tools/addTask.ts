@@ -2,6 +2,8 @@ import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { addTaskInputSchema } from "../schemas/addTask.js";
 import { addTask } from "../lib/tasks.js";
 
+
+
 export function registerAddTaskTool(server: McpServer): void {
   server.registerTool(
     "add_task",

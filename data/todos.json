@@ -1,33 +1,6 @@
 [
   {
     "id": "1",
-<<<<<<<<< Temporary merge branch 1
-    "title": "Buy groceries",
-    "status": "open",
-    "priority": "high",
-    "createdAt": "2026-07-20T10:00:00Z"
-  },
-  {
-    "id": "2",
-    "title": "Finish MCP homework",
-    "status": "open",
-    "priority": "medium",
-    "createdAt": "2026-07-21T09:30:00Z"
-  },
-  {
-    "id": "3",
-    "title": "Call the bank",
-    "status": "completed",
-    "priority": "low",
-    "createdAt": "2026-07-18T14:00:00Z"
-  },
-  {
-    "id": "4",
-    "title": "building mcp server",
-    "status": "completed",
-    "priority": "medium",
-    "createdAt": "2026-08-03T11:58:45.919Z"
-=========
     "title": "week4",
     "status": "completed",
     "priority": "high",
@@ -46,6 +19,19 @@
     "status": "open",
     "priority": "high",
     "deadline": "2026-08-20"
->>>>>>>>> Temporary merge branch 2
+  },
+  {
+    "id": "4",
+    "title": "MCP Server",
+    "status": "completed",
+    "priority": "high",
+    "deadline": "2026-09-01"
+  },
+  {
+    "id": "5",
+    "title": "Finish the cryptography assignment",
+    "status": "open",
+    "priority": "high",
+    "deadline": "2026-08-21"
   }
 ]
