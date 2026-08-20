@@ -7,6 +7,7 @@ import { registerCompleteTaskTool } from "./tools/completeTask.js";
 import { registerDeleteTaskTool } from "./tools/deleteTask.js";
 import { registerUpdateTaskTool } from "./tools/updateTask.js";
 import { registerSearchTasksTool } from "./tools/searchTask.js";
+import { registerGenerateStudyPlanTool } from "./tools/generate_StudyPlan.js";
 
 
 function createServer(): McpServer {
@@ -21,6 +22,7 @@ function createServer(): McpServer {
   registerDeleteTaskTool(server);
   registerUpdateTaskTool(server);
   registerSearchTasksTool(server);
+  registerGenerateStudyPlanTool(server);
   return server;
 }
 

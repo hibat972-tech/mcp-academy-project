@@ -1,5 +1,8 @@
 import { readDataFile, writeDataFile } from "./dataFile.js";
-import { todoListSchema, type TodoRecord } from "../schemas/todoRecord.js";
+import {
+  todoListSchema,
+  type TodoRecord,
+} from "../schemas/todoRecord.js";
 
 const TODOS_FILE = "todos.json";
 
@@ -18,7 +21,9 @@ async function loadTodoList(): Promise<TodoRecord[]> {
   const trimmed = raw.trim();
 
   if (trimmed.length === 0) {
-    console.error("[todos] todos.json is empty — starting with an empty list");
+    console.error(
+      "[todos] todos.json is empty — starting with an empty list",
+    );
     return [];
   }
 
@@ -43,8 +48,13 @@ async function loadTodoList(): Promise<TodoRecord[]> {
   return result.data;
 }
 
-async function saveTodoList(tasks: TodoRecord[]): Promise<void> {
-  await writeDataFile(TODOS_FILE, JSON.stringify(tasks, null, 2));
+async function saveTodoList(
+  tasks: TodoRecord[],
+): Promise<void> {
+  await writeDataFile(
+    TODOS_FILE,
+    JSON.stringify(tasks, null, 2),
+  );
 }
 
 export async function addTask(
@@ -54,9 +64,8 @@ export async function addTask(
 ): Promise<TodoRecord> {
   const tasks = await loadTodoList();
 
-  const nextId = String(
-    tasks.reduce((max, t) => Math.max(max, Number(t.id) || 0), 0) + 1,
-  );
+  const nextId =
+    tasks.reduce((max, task) => Math.max(max, task.id), 0) + 1;
 
   const newTask: TodoRecord = {
     id: nextId,
@@ -80,7 +89,9 @@ export function filterOpenTasks(
   tasks: TodoRecord[],
   limit?: number,
 ): TodoRecord[] {
-  const openTasks = tasks.filter((task) => task.status === "open");
+  const openTasks = tasks.filter(
+    (task) => task.status === "open",
+  );
 
   if (typeof limit === "number") {
     return openTasks.slice(0, limit);
@@ -93,7 +104,9 @@ export function filterAndSortOpenTasks(
   tasks: TodoRecord[],
   deadline?: string,
 ): TodoRecord[] {
-  let openTasks = tasks.filter((task) => task.status === "open");
+  let openTasks = tasks.filter(
+    (task) => task.status === "open",
+  );
 
   if (deadline) {
     openTasks = openTasks.filter(
@@ -101,25 +114,36 @@ export function filterAndSortOpenTasks(
     );
   }
 
-  const priorityOrder: Record<TodoRecord["priority"], number> = {
+  const priorityOrder: Record<
+    TodoRecord["priority"],
+    number
+  > = {
     high: 0,
     medium: 1,
     low: 2,
   };
 
   return openTasks.sort((a, b) => {
-    const deadlineComparison = a.deadline.localeCompare(b.deadline);
+    const deadlineComparison = a.deadline.localeCompare(
+      b.deadline,
+    );
 
     if (deadlineComparison !== 0) {
       return deadlineComparison;
     }
 
-    return priorityOrder[a.priority] - priorityOrder[b.priority];
+    return (
+      priorityOrder[a.priority] -
+      priorityOrder[b.priority]
+    );
   });
 }
 
-export async function completeTaskById(id: string): Promise<TodoRecord> {
+export async function completeTaskById(
+  id: number,
+): Promise<TodoRecord> {
   const tasks = await loadTodoList();
+
   const task = tasks.find((item) => item.id === id);
 
   if (!task) {
@@ -127,14 +151,20 @@ export async function completeTaskById(id: string): Promise<TodoRecord> {
   }
 
   task.status = "completed";
+
   await saveTodoList(tasks);
 
   return task;
 }
 
-export async function deleteTaskById(id: string): Promise<TodoRecord> {
+export async function deleteTaskById(
+  id: number,
+): Promise<TodoRecord> {
   const tasks = await loadTodoList();
-  const taskIndex = tasks.findIndex((item) => item.id === id);
+
+  const taskIndex = tasks.findIndex(
+    (item) => item.id === id,
+  );
 
   if (taskIndex === -1) {
     throw new Error(`Task with id "${id}" was not found`);
@@ -148,7 +178,7 @@ export async function deleteTaskById(id: string): Promise<TodoRecord> {
 }
 
 export async function updateTaskById(
-  id: string,
+  id: number,
   updates: {
     title?: string;
     priority?: TodoRecord["priority"];
@@ -156,6 +186,7 @@ export async function updateTaskById(
   },
 ): Promise<TodoRecord> {
   const tasks = await loadTodoList();
+
   const task = tasks.find((item) => item.id === id);
 
   if (!task) {
@@ -194,7 +225,10 @@ function normalizeText(text: string): string {
     .trim();
 }
 
-function taskMatchesQuery(task: TodoRecord, query: string): boolean {
+function taskMatchesQuery(
+  task: TodoRecord,
+  query: string,
+): boolean {
   const normalizedQuery = normalizeText(query);
   const normalizedTitle = normalizeText(task.title);
 
@@ -220,13 +254,11 @@ export async function searchTasks(
 ): Promise<TodoRecord[]> {
   const tasks = await loadTodoList();
 
-  const filteredTasks = tasks.filter((task) => {
+  return tasks.filter((task) => {
     if (status !== "all" && task.status !== status) {
       return false;
     }
 
     return taskMatchesQuery(task, query);
   });
-
-  return filteredTasks;
 }

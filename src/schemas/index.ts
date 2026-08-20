@@ -4,6 +4,4 @@ export * from "./completeTask.js";
 export * from "./deleteTask.js";
 export * from "./updateTask.js";
 export * from "./searchTask.js";
-
-
-
+export * from "./generate_StudyPlan.js";
