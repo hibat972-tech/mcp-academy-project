@@ -2,7 +2,7 @@ import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { completeTaskInputSchema } from "../schemas/index.js";
 import { completeTaskById } from "../lib/tasks.js";
 
-export function registerCompleteTaskTool(server: McpServer)  {
+export function registerCompleteTaskTool(server: McpServer) {
   server.registerTool(
     "complete_task",
     {
@@ -33,6 +33,7 @@ export function registerCompleteTaskTool(server: McpServer)  {
               text: `Could not complete task: ${(error as Error).message}`,
             },
           ],
+          isError: true,
         };
       }
     },
