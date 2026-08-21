@@ -4,7 +4,9 @@ import * as z from "zod/v4";
 
 export const deleteTaskInputSchema = z.object({
   id: z
-    .string()
+    .number()
+    .int()
+    .positive()
     .min(1)
     .max(100)
     .describe("The unique ID of the task to delete"),

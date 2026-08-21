@@ -11,7 +11,7 @@ export async function loadTodos(): Promise<TodoRecord[]> {
 }
 
 // Marks a task as completed by ID. Throws if the ID doesn't exist.
-export async function completeTaskById(id: string): Promise<TodoRecord> {
+export async function completeTaskById(id: number): Promise<TodoRecord> {
   const todos = await loadTodos();
   const index = todos.findIndex((t) => t.id === id);
 
@@ -26,7 +26,7 @@ export async function completeTaskById(id: string): Promise<TodoRecord> {
 }
 
 // Deletes a task by ID. Throws if the ID doesn't exist.
-export async function deleteTaskById(id: string): Promise<TodoRecord> {
+export async function deleteTaskById(id: number): Promise<TodoRecord> {
   const todos = await loadTodos();
   const index = todos.findIndex((t) => t.id === id);
 
@@ -40,8 +40,9 @@ export async function deleteTaskById(id: string): Promise<TodoRecord> {
 
   return deletedTask;
 }
+
 export async function updateTaskById(
-  id: string,
+  id: number,
   updates: {
     title?: string;
     priority?: TodoRecord["priority"];

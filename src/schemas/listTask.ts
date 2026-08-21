@@ -6,7 +6,7 @@ export const listTasksInputSchema = z.object({
     .number()
     .int()
     .positive()
-    .max(50)
+    .max(100)
     .optional()
     .describe("Max number of tasks to return, defaults to all open tasks"),
 
