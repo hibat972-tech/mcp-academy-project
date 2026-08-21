@@ -23,6 +23,8 @@ Students juggle deadlines across multiple courses (exams, assignments, labs) wit
 **Backup prompt (if something above fails):**
 > "Update the deadline of the cryptography task to next Monday, then actually just delete it — I don't need it anymore."
 → Calls `update_task` to change the deadline, then calls `delete_task` to remove it.
+## Backup Plan (Wi-Fi Failure)
+The MCP server runs entirely locally over stdio, so no internet connection is required for tool calls. If Claude requires connectivity, I can use the MCP Inspector as a fallback, since it communicates with the server locally through localhost.
 
 ## 3:30–4:30 — What I'd build next
 - Improve the search feature to better understand more complex natural language requests.
