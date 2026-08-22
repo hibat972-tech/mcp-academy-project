@@ -1,6 +1,11 @@
 # Demo Script — To-Do List MCP Server
 
 **Total time: 5 minutes**
+# Demo Script — To-Do List MCP Server
+
+**Slides:** [docs/demo-slides.pptx](demo-slides.pptx)
+
+**Total time: 5 minutes**
 
 ## 0:00–0:40 — The Problem
 Students juggle deadlines across multiple courses (exams, assignments, labs) with no single place to track what's open, what's urgent, and what's done. This MCP server lets an AI assistant manage a student's to-do list directly through natural conversation — add tasks, check what's pending, mark things complete — without opening a separate app.
