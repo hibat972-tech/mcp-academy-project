@@ -63,7 +63,8 @@ export async function addTask(
     title,
     status: "open",
     priority,
-    deadline,  };
+    deadline,
+  };
 
   tasks.push(newTask);
   await saveTodoList(tasks);
@@ -94,7 +95,6 @@ export function filterAndSortOpenTasks(
 ): TodoRecord[] {
   let openTasks = tasks.filter((task) => task.status === "open");
 
-  
   if (deadline) {
     openTasks = openTasks.filter(
       (task) => task.deadline <= deadline,
@@ -127,6 +127,53 @@ export async function completeTaskById(id: string): Promise<TodoRecord> {
   }
 
   task.status = "completed";
+  await saveTodoList(tasks);
+
+  return task;
+}
+
+export async function deleteTaskById(id: string): Promise<TodoRecord> {
+  const tasks = await loadTodoList();
+  const taskIndex = tasks.findIndex((item) => item.id === id);
+
+  if (taskIndex === -1) {
+    throw new Error(`Task with id "${id}" was not found`);
+  }
+
+  const [deletedTask] = tasks.splice(taskIndex, 1);
+
+  await saveTodoList(tasks);
+
+  return deletedTask;
+}
+
+export async function updateTaskById(
+  id: string,
+  updates: {
+    title?: string;
+    priority?: TodoRecord["priority"];
+    deadline?: string;
+  },
+): Promise<TodoRecord> {
+  const tasks = await loadTodoList();
+  const task = tasks.find((item) => item.id === id);
+
+  if (!task) {
+    throw new Error(`Task with id "${id}" was not found`);
+  }
+
+  if (updates.title !== undefined) {
+    task.title = updates.title;
+  }
+
+  if (updates.priority !== undefined) {
+    task.priority = updates.priority;
+  }
+
+  if (updates.deadline !== undefined) {
+    task.deadline = updates.deadline;
+  }
+
   await saveTodoList(tasks);
 
   return task;

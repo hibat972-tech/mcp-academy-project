@@ -2,10 +2,10 @@ import { readFile, writeFile, mkdir } from "node:fs/promises";
 import { resolve, relative, isAbsolute, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-
-const DATA_DIR = resolve(__dirname, "..", "..", "data");
+const DATA_DIR = resolve(
+  dirname(fileURLToPath(import.meta.url)),
+  "../../data"
+);
 
 // Resolves a filename safely under ./data — rejects any path trying to escape it (e.g. "..")
 function resolveDataPath(fileName: string): string {
